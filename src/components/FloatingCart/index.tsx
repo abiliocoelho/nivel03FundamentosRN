@@ -17,7 +17,13 @@ import { useCart } from '../../hooks/cart';
 
 // Calculo do total
 // Navegação no clique do TouchableHighlight
-
+interface Product {
+  id: string;
+  title: string;
+  image_url: string;
+  price: number;
+  quantity: number;
+}
 const FloatingCart: React.FC = () => {
   const { products } = useCart();
 
@@ -25,14 +31,25 @@ const FloatingCart: React.FC = () => {
 
   const cartTotal = useMemo(() => {
     // TODO RETURN THE SUM OF THE PRICE FROM ALL ITEMS IN THE CART
-
-    return formatValue(0);
+    const total: number = products.reduce(
+      (accumulator: number, current: Product) => {
+        return accumulator + current.price * current.quantity;
+      },
+      0,
+    );
+    return formatValue(total);
   }, [products]);
 
   const totalItensInCart = useMemo(() => {
     // TODO RETURN THE SUM OF THE QUANTITY OF THE PRODUCTS IN THE CART
+    const numItens: number = products.reduce(
+      (accumulator: number, current: Product) => {
+        return accumulator + current.quantity;
+      },
+      0,
+    );
 
-    return 0;
+    return numItens;
   }, [products]);
 
   return (
